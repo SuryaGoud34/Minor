@@ -1,5 +1,3 @@
-Find the stability of a system using Bode plot for the following system through
-simulation
 
 num = [];
 den = [];
