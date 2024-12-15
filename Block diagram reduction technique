@@ -1,1 +1,30 @@
+n1=1;d1=[1 7]; %Initialising num and den of block G1
+n2=1;d2=[1 3 7]; %Initialising num and den of block G2
+n3=1;d3=[1 8]; %Initialising num and den of block G3
+n4=1;d4=[1 0]; %Initialising num and den of block G4
+n5=7;d5=[1 3]; %Initialising num and den of block G5
+n6=1;d6=[1 7 5]; %Initialising num and den of block G6
+n7=5;d7=[1 5]; %Initialising num and den of block G7
+n8=1;d8=[1 9]; %Initialising num and den of block G8
+nblocks=8; %Assigning number of blocks to nblocks
+blkbuild %Creating state-space matrices
+q=[1 -2 -5 0 0;
+ 2 1 8 0 0;
+ 3 1 8 0 0;
+ 4 1 8 0 0;
+ 5 3 4 -6 0;
+ 6 7 0 0 0;
+ 7 -6 3 4 0;
+ 8 7 0 0 0];
+input=1; %Input block
+output=7; %Output block
+[aa,bb,cc,dd]=connect(a,b,c,d,q,input,output) %Connecting the blocks
+[num,den]=ss2tf(aa,bb,cc,dd)
+printsys(num,den) %Printing overall transfer function
+k= tf(num,den);
+figure;
+step(k);
+title('Step Response'); %Plotting step response
+xlim([0 100]);
+ylim([0 1]);
 
