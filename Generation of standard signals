@@ -1,0 +1,30 @@
+t = -5:0.01:5; % Create a time vector ranging from -5 to 5 with a step
+size of 0.01
+% Generate signals
+impulse = zeros(size(t)); % Initialize the impulse signal with zeros
+impulse(find(t==0)) = 1/0.01; % Set the value at t=0 to approximate an impulse
+step = t >= 0; % Create a unit step signal (1 for t >= 0, 0 for t < 0)
+ramp = t .* step; % Create a unit ramp signal (t for t >= 0, 0 for t < 0)
+A = 2; % Set the amplitude of the exponential function
+s = -1; % Set the exponent value (decay rate)
+exponential = A * exp(s*t); % Create an exponential signal A*e^(s*t)
+amplitude = 3; % Set the amplitude of the cosine wave
+frequency = 2*pi*2; % Set the angular frequency
+phase = pi/4; % Set the phase shift of the cosine wave
+cosine = amplitude * cos(frequency*t + phase); % Create a cosine wave
+sine = amplitude * sin(frequency*t + phase); % Create sine wave as above
+a = 1; % Coefficient for the quadratic term in Parabolic signal
+b = 0; % Coefficient for the linear term
+c = 0; % Constant term (no constant term)
+parabolic = a*t.^2 + b*t + c; % Create a parabolic signal
+% Plotting
+figure;
+xlabel('Time (s)');
+ylabel('Amplitude');
+subplot(4,2,1);plot(t, impulse);title('Unit Impulse');
+subplot(4,2,2);plot(t, step);title('Unit Step');
+subplot(4,2,3);plot(t, ramp);title('Unit Ramp');
+subplot(4,2,4);plot(t, exponential);title('Exponential');
+subplot(4,2,5);plot(t, cosine);title('Cosine');
+subplot(4,2,6);plot(t, sine);title('Sine');
+subplot(4,2,7);plot(t, parabolic);title('Parabolic');
