@@ -1,0 +1,45 @@
+#Implementation of k-means clustering algorithm in Python
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# K-means clustering function
+def kmeans(X, k, max_iters=100, tol=1e-4):
+    # Step 1: Initialize centroids randomly from data points
+    centroids = X[np.random.choice(X.shape[0], k, replace=False)]
+
+    for i in range(max_iters):
+        # Step 2: Assign each point to the nearest centroid
+        distances = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
+        labels = np.argmin(distances, axis=1)
+
+        # Step 3: Compute new centroids from the assigned points
+        new_centroids = np.array([X[labels == j].mean(axis=0) for j in range(k)])
+
+        # Step 4: Check for convergence (if centroids do not change much)
+        if np.all(np.abs(new_centroids - centroids) < tol):
+            print(f"Converged after {i+1} iterations")
+            break
+        centroids = new_centroids
+
+    return centroids, labels
+
+# Generate random data for clustering
+np.random.seed(42)
+X = np.vstack([
+    np.random.normal(loc=[5, 5], scale=1, size=(100, 2)),
+    np.random.normal(loc=[10, 10], scale=1, size=(100, 2)),
+    np.random.normal(loc=[15, 5], scale=1, size=(100, 2))
+])
+
+# Perform K-means clustering
+k = 3
+centroids, labels = kmeans(X, k)
+
+# Plot the results
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', s=50, alpha=0.6)
+plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='x', s=200, label="Centroids")
+plt.title(f"K-means clustering (k={k})")
+plt.legend()
+plt.show()
